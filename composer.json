@@ -1,0 +1,53 @@
+{
+    "name": "phpdot/redis",
+    "description": "Coroutine-safe Redis client wrapping ext-redis with auto-reconnect, exponential backoff, exception translation, and a pool connector for phpdot/pool.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Omar Hamdan",
+            "email": "omar@phpdot.com"
+        }
+    ],
+    "keywords": ["redis", "ext-redis", "phpredis", "swoole", "coroutine-safe", "connection-pool", "phpdot"],
+    "require": {
+        "php": ">=8.5",
+        "ext-redis": "^6.0",
+        "phpdot/contracts": "^0.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.94",
+        "phpdot/container": "^0.1",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPdot\\Redis\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PHPdot\\Redis\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse --memory-limit=256M",
+        "cs-fix": "php-cs-fixer fix",
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "check": [
+            "@test",
+            "@analyse",
+            "@cs-check"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "support": {
+        "source": "https://github.com/phpdot/redis",
+        "issues": "https://github.com/phpdot/monorepo/issues"
+    }
+}
