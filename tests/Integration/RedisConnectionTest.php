@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Integration coverage against a live Redis (127.0.0.1:6379). Run via
+ * Integration coverage against a live Redis. Run via
  * `composer test` when a server is available; the Unit suite covers the
  * disconnected-state contract without one.
  */
@@ -19,7 +19,7 @@ final class RedisConnectionTest extends TestCase
     protected function setUp(): void
     {
         try {
-            $probe = new RedisConnection(new RedisConfig(timeout: 0.5, maxRetries: 0));
+            $probe = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379), timeout: 0.5, maxRetries: 0));
             $probe->connect();
             $probe->close();
         } catch (\Throwable $e) {
@@ -30,7 +30,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_connects_to_redis(): void
     {
-        $connection = new RedisConnection(new RedisConfig());
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379)));
         $connection->connect();
 
         self::assertTrue($connection->isConnected());
@@ -40,7 +40,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_reports_not_connected_before_connect(): void
     {
-        $connection = new RedisConnection(new RedisConfig());
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379)));
 
         self::assertFalse($connection->isConnected());
     }
@@ -48,7 +48,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_pings_the_server(): void
     {
-        $connection = new RedisConnection(new RedisConfig());
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379)));
         $connection->connect();
 
         self::assertTrue($connection->ping());
@@ -58,7 +58,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_exposes_the_underlying_client(): void
     {
-        $connection = new RedisConnection(new RedisConfig(database: 0));
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379), database: 0));
         $connection->connect();
 
         $client = $connection->getClient();
@@ -71,7 +71,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_reconnects_after_close(): void
     {
-        $connection = new RedisConnection(new RedisConfig());
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379)));
         $connection->connect();
         $connection->close();
 
@@ -85,7 +85,7 @@ final class RedisConnectionTest extends TestCase
     #[Test]
     public function it_closes_connection(): void
     {
-        $connection = new RedisConnection(new RedisConfig());
+        $connection = new RedisConnection(new RedisConfig(host: getenv('REDIS_HOST') ?: '127.0.0.1', port: (int) (getenv('REDIS_PORT') ?: 6379)));
         $connection->connect();
 
         $connection->close();
