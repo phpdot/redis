@@ -30,7 +30,7 @@ use RedisException;
 
 final class RedisConnection
 {
-    private ?RedisClient $client = null;
+    private null|RedisClient $client = null;
 
     private bool $connected = false;
 

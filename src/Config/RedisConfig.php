@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace PHPdot\Redis\Config;
 
 use PHPdot\Container\Attribute\Config;
+use SensitiveParameter;
 
 #[Config('redis')]
 final readonly class RedisConfig
@@ -45,6 +46,7 @@ final readonly class RedisConfig
         public string $host = '127.0.0.1',
         public int $port = 6379,
         public string $path = '',
+        #[SensitiveParameter]
         public string $password = '',
         public string $username = '',
         public int $database = 0,
@@ -82,7 +84,7 @@ final readonly class RedisConfig
      *
      * @return array{auth?: array{0: string|false|null, 1?: string}, stream?: array<string, mixed>}|null
      */
-    public function buildContext(): ?array
+    public function buildContext(): null|array
     {
         if ($this->ssl === [] && $this->context === []) {
             return null;

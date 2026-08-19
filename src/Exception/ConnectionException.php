@@ -23,7 +23,7 @@ final class ConnectionException extends RedisException
         string $message = '',
         private readonly string $host = '',
         int $code = 0,
-        ?\Throwable $previous = null,
+        null|\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }
