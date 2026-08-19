@@ -20,7 +20,7 @@ One `\Redis` client lives per connection, so a pool gives each Swoole coroutine 
 |---|---|
 | PHP | `>= 8.5` |
 | `ext-redis` | `^6.0` |
-| `phpdot/contracts` | `^0.1` |
+| `phpdot/contracts` | `^0.2` |
 
 `phpdot/container` is a dev-only suggestion — the `#[Config('redis')]` attribute on `RedisConfig` is
 inert until a phpdot application reflects it.
